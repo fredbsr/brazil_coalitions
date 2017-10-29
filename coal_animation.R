@@ -39,12 +39,11 @@ theme_coalitions <-   theme(text = element_text(family = "Calibri"),
     panel.background = element_rect(fill = "white"),
     legend.position="bottom")
 
-
-setwd("C:/Users/36137/Dropbox/IPG_Papers_CoalMgm/_data")
-# setwd("~/Dropbox/IPG_Papers_CoalMgm/_data")
-
-CMV8_longs <- readRDS("parties_brazil_long.RDS") 
-
+# Reading data from dataverse
+data <- get_file("parties_brazil_long.RDS", "doi:10.7910/DVN/9EJGE9")
+CMV8 <- tempfile(fileext = ".RDS")
+writeBin(as.vector(data), CMV8)
+CMV8_longs <- readRDS(CMV8) 
 
 coalition_anim_full <- CMV8_longs %>%
      mutate(year=year(date_complete),
@@ -104,8 +103,6 @@ coalition_anim_full <- CMV8_longs %>%
 #theme
         theme_coalitions
 
-
-setwd("D:/brazil_coalitions")
 animation::ani.options()
 animation::ani.options(ani.height=600,
                         ani.width=800,
